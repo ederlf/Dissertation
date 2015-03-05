@@ -1,0 +1,60 @@
+\begin{thenomenclature} 
+
+ \nomgroup{A}
+
+  \item [{API}]\begingroup Application Programming Interface\nomeqref {0}
+		\nompageref{1}
+  \item [{ARP}]\begingroup Address Resolution Protocol\nomeqref {0}
+		\nompageref{1}
+  \item [{ASIC}]\begingroup Application Specific Integrated Circuit\nomeqref {0}
+		\nompageref{1}
+  \item [{BOS}]\begingroup Bottom of the stack\nomeqref {0}
+		\nompageref{1}
+  \item [{CAM}]\begingroup Content Addressable Memory\nomeqref {0}
+		\nompageref{1}
+  \item [{CRC}]\begingroup Cyclic Redundancy Check\nomeqref {0}
+		\nompageref{1}
+  \item [{EH}]\begingroup Extension Header\nomeqref {0}\nompageref{1}
+  \item [{ICMP}]\begingroup Internet Control Message Protocol \nomeqref {0}
+		\nompageref{1}
+  \item [{IP}]\begingroup Internet Protocol\nomeqref {0}\nompageref{1}
+  \item [{IPv6}]\begingroup Internet Protocol Version 6\nomeqref {0}
+		\nompageref{1}
+  \item [{Kbps}]\begingroup Kilobits per second\nomeqref {0}
+		\nompageref{1}
+  \item [{Kpps}]\begingroup Kilo packets per second\nomeqref {0}
+		\nompageref{1}
+  \item [{MAC}]\begingroup Media Access Control\nomeqref {0}
+		\nompageref{1}
+  \item [{Mbps}]\begingroup Megabits per second\nomeqref {0}
+		\nompageref{1}
+  \item [{MPLS}]\begingroup Multiprotocol Label Switching\nomeqref {0}
+		\nompageref{1}
+  \item [{NetPDL}]\begingroup Network Protocol Description Language\nomeqref {0}
+		\nompageref{1}
+  \item [{ONF}]\begingroup Open Network Foundation\nomeqref {0}
+		\nompageref{1}
+  \item [{OVS}]\begingroup Open vSwitch\nomeqref {0}\nompageref{1}
+  \item [{OXM}]\begingroup OpenFlow Extended Match\nomeqref {0}
+		\nompageref{1}
+  \item [{PBB}]\begingroup Provider Backbone Bridge Protocol\nomeqref {0}
+		\nompageref{1}
+  \item [{QoS}]\begingroup Quality of Service\nomeqref {0}
+		\nompageref{1}
+  \item [{RAM}]\begingroup Random Access Memory\nomeqref {0}
+		\nompageref{1}
+  \item [{SCTP}]\begingroup Streaming Control Transfer Protocol\nomeqref {0}
+		\nompageref{1}
+  \item [{SDN}]\begingroup Software Defined Networking\nomeqref {0}
+		\nompageref{1}
+  \item [{TCP}]\begingroup Transmission Control Protocol\nomeqref {0}
+		\nompageref{1}
+  \item [{TDD}]\begingroup Test Driven Development\nomeqref {0}
+		\nompageref{1}
+  \item [{TLS}]\begingroup Transport Layer Security\nomeqref {0}
+		\nompageref{1}
+  \item [{TLV}]\begingroup Type-Lenght-Value\nomeqref {0}\nompageref{1}
+  \item [{XML}]\begingroup Extensible Markup Language\nomeqref {0}
+		\nompageref{1}
+
+\end{thenomenclature}
