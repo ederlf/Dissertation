@@ -65,7 +65,7 @@ The objective of this work is the development of a programmable OpenFlow 1.3 sof
 
 In this Introduction we explained the motivational aspects that justify this work. Also, we give a clear explanation for the objectives of this project. 
 
-In Chapter~\ref{cap:cap02} we present a Literature Review. Related OpenFlow software switches' current functionalities are discussed from the point of view of our implementation requisites. Furthermore, we introduce other tools which are important parts of the OpenFlow ecosystem. 
+In Chapter~\ref{cap:cap02} we present a Literature Review. Related OpenFlow software switches current functionalities are discussed from the point of view of our implementation requisites. Furthermore, we introduce other tools which are important parts of the OpenFlow ecosystem. 
 
 In Chapter~\ref{cap:cap03} we take a look at the architecture of the software switch which is compliant with OpenFlow 1.3. We explain the modules relationship and roles within the OpenFlow pipeline.
 
