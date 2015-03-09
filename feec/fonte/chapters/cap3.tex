@@ -5,7 +5,7 @@ Architectural design is strongly tied down by OpenFlow 1.3 required and optional
 
 The OpenFlow switch implementation is a fork from the OpenFlow 1.1 reference switch. We choose this implementation as a starting point for our work because of the simpler code base, when compared to other switch implementations discussed in section \ref{cap:cap02}. Although simple, the only documentation available to understand the reference switch was the OpenFlow specification. For this reason, the definition of the architectural design started from the extraction of the previous software architecture. 
 
-Firstly, through a simple reverse software engineering process \cite{Sommerville:2001:SE:375369}, we analyzed the code and listed the switch core components. Next, we identified missing components from the OpenFlow 1.3 specification. After these steps, we found that block structures suggests the application of a bottom-up design \cite{vonMayrhauser:1990:SEM:79005}. In this approach, the basic set of foundational modules and their interrelationships are the foundation for the final architecture. Following these concepts we came up with the final design for the OpenFlow 1.3 software switch.
+Firstly, through a simple reverse software engineering process \cite{Sommerville:2001:SE:375369}, we analyzed the code and listed the switch core components. Next, we identified missing components from the OpenFlow 1.3 specification. After these steps, we found that block structures suggest the application of a bottom-up design \cite{vonMayrhauser:1990:SEM:79005}. In this approach, the basic set of foundational modules and their interrelationships are the foundation for the final architecture. Following these concepts, we came up with the final design for the OpenFlow 1.3 software switch.
 
 In the Figure \ref{fig:switcharq} we show the software switch architecture. The most important block is the Datapath. It consists of OpenFlow internal elements such as Flow, Meter and Group Tables, and a Packet Parser as well. The other three blocks operate on different levels along with the Datapath. From the top level, the blocks Datapath, Marshaling/Unmarshaling library and Communication Channel are part of the OpenFlow message layer. Below, Ports and Datapath form the network packets layer, where packets arrive, are processed and usually sent back for the network.\footnote{Some instructions, actions and even an empty table may cause a packet drop in the Datapath.} Except for the special case of the \textit{Packet In} message, in which packets can be sent for the controller, these two layers do not interact. In Figure \ref{fig:switcharq}, dotted lines illustrate some possible paths a network packet can travel between the Ports and the Datapath. Solid lines denote the OpenFlow messages traveling in the OpenFlow message layer. Arrows mean the direction packets and OpenFlow messages can take across the switch components. 
 
@@ -35,7 +35,7 @@ In this section, we present each software switch component individually, detaili
 
 	\item Packets encapsulated in \textit{Packet In} usually have only the header sent within the message. A buffer stores the packet, while waiting for the controller decision after the \textit{Packet In}. Ports elements store these packets and resend them for further processing.
 
-	\item An OpenFlow controller can ask the switch about a port description. The software switch element retrieves information like current and max operating speed from the interfaces of the machine and stores it. On a port description request, the element handles the message and sends the required information to the control plane.
+	\item An OpenFlow controller can ask the switch about a port description. The software switch element retrieves information such as current and max operating speeds from the interfaces of the machine and stores it. On a port description request, the element handles the message and sends the required information to the control plane.
 
 	\item Queues creation are not part of the OpenFlow protocol. However, OpenFlow can configure port queues, created by whichever mechanism, to be associated with a switch port. Ports are responsible for handling queue association and configuration.  
 
@@ -70,9 +70,9 @@ In this section, we present each software switch component individually, detaili
 
 	\item Handle \textit{Flow Mod} messages sent by the controller. These messages may add or delete flow entries, or change the instruction set from currently installed flows.  
 
-	\item Flow Tables must be able to have their capabilities reconfigured by a controller. These table features can express the table supported properties. The instructions type and the match fields allowed in the table are examples of properties. Also, some fields show relevant information for an OpenFlow application. For instance, the table identifier value is an information required to add a new flow, and the max number of flow entries should be considered to avoid scalability problems.           
+	\item Flow Tables must be able to have their capabilities reconfigured by a controller. These table features can express the table supported properties. The instructions' type and the match fields allowed in the table are examples of properties. Also, some fields show relevant information for an OpenFlow application. For instance, the table identifier value is an information required to add a new flow, and the max number of flow entries should be considered to avoid scalability problems.           
 
-    \item A Packet look up must be performed upon receiving of a packet. The operation looks for a flow table entry that matches the packet. In the case of a match, the switch executes the instruction set associated with the flow entry. This is the most common activity in Flow Tables.   
+    \item A Packet look up must be performed upon the receiving of a packet. The operation looks for a flow table entry that matches the packet. In the case of a match, the switch executes the instruction set associated with the flow entry. This is the most common activity in Flow Tables.   
     
     \item Keep table statistics about the number of active flow entries, number of look ups and matched packets.  
 
@@ -95,11 +95,11 @@ In this section, we present each software switch component individually, detaili
 	
 	\item The Group Table have to guarantee group type restrictions. For instance, indirect groups support only one action bucket. 
 
-	\item The Group Table must handle modification messages and perform consistency checks in the case of group chaining. Chained groups point to another groups and may cause loops that should be avoided by the element.  
+	\item The Group Table must handle modification messages and perform consistency checks in the case of group chaining. Chained groups point to other groups and may cause loops that should be avoided by the element.  
 
 	\item Fast failover groups require monitoring switch ports and group buckets for state changes. For this reason the Group Table is responsible for checking bucket liveness when choosing the first live bucket.
 
-	\item A Group Table that supports the select group type, has to implement a schedule discipline algorithm to choose which bucket will be applied to the packet.
+	\item A Group Table that supports the select group type has to implement a schedule discipline algorithm to choose which bucket will be applied to the packet.
 
 	\end{itemize}
 
@@ -139,11 +139,11 @@ In this section, we present each software switch component individually, detaili
     
     \begin{itemize}
     
-    \item Every OpenFlow message must have a function that packs and unpacks it. Pack is the function which converts internal structures into network format. While unpack, turns received messages into an internal structure.
+    \item Every OpenFlow message must have a function that packs and unpacks it. Pack is the function which converts internal structures into network format. While unpack turns received messages into an internal structure.
     
         \subitem - When packing, the library has to add any necessary padding bytes.
         \subitem - On packing, the message should be assembled in network byte-order.
-        \subitem - On unpacking, the library must translate the message fieds to the switch host architecture byte-order.
+        \subitem - On unpacking, the library must translate the message fields to the switch host architecture byte-order.
     
     \item Some handling of OpenFlow message errors is done in this level. The library must raise errors for messages with wrong length or bad arguments. 
     
@@ -151,7 +151,7 @@ In this section, we present each software switch component individually, detaili
 
     \subsection{Communication Channel}	
 
-    The OpenFlow software switch communicates with controllers through the Communication Channel. This element connects with the Datapath and the controller and acts as proxy between them. This element exists because the implementation of the communication channel is not defined by the specification. Since the message format is respected, implementation are free to choose the connection protocol. For instance, when security for the channel is a requirement, a protocol like TLS should be used to encrypt the messages. 
+    The OpenFlow software switch communicates with controllers through the Communication Channel. This element connects with the Datapath and the controller and acts as a proxy between them. This element exists because the implementation of the communication channel is not defined by the specification. Since the message format is respected, implementations are free to choose the connection protocol. For instance, when security for the channel is a requirement, a protocol like TLS should be used to encrypt the messages. 
     
     In the software switch, the Communication Channel roles are:
     
