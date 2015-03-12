@@ -1,9 +1,9 @@
 \chapter{Introduction}
 \label{cap:intro}
 
-Traditional computer networks have been successful in their most basic goal: making packets originated from a source location reach a destination \cite{Shenker95fundamentaldesign}. However, the exponential growth in Internet users, emerging use cases and applications have become a challenge for network carriers and administrators. These professionals should be able to handle and to master more and more complex scenarios and configurations \cite{Feldmann:2007:ICD:1273445.1273453}. Furthermore, network equipments are strictly closed or only offer a small set of options for users who want to add their own functionalities and applications. Consequently, innovation in computer networks is compromised, compelling companies to wait for new features on software updates or, worse, to buy a new network box. 
+Traditional computer networks have been successful in their most basic goal: making packets originated from a source location reach a destination \cite{Shenker95fundamentaldesign}. However, with the exponential growth in Internet users, emerging use cases and applications have become a challenge for network carriers and administrators. These professionals should be able to handle and to master more and more complex scenarios and configurations \cite{Feldmann:2007:ICD:1273445.1273453}. Furthermore, network equipments are strictly closed or only offer a small set of options for users who want to add their own functionalities and applications. Consequently, innovation in computer networks is compromised, compelling companies to wait for new features on software updates or, worse, to buy a new network box. 
 
-In order to address these issues, inspired by older technologies that have followed similar concepts and evolved \cite{Feamster:2014:RSI:2602204.2602219}, a new network model was needed. The Software Defined Networking (SDN) \cite{DBLP:journals/corr/KreutzRVRAU14}, is a network architecture in which the control plane of network switches is decoupled from the forwarding plane, as illustrated by Figure 1. The control plane is responsible for the management of one or more elements from the forwarding plane. The applications running on top of the control plane can program the data plane to execute determined actions according to the packet type received by an equipment or some network event.  As a result of this flexibility to control the forwarding plane, network equipments may receive new functions and do not need to be replaced when the need for a new functionality arises. Moreover, the network resources can be fully exploited by some smart resource allocation, like network virtualization \cite{FLOWVISOR} \cite{Al-Shabibi:2014:OMY:2620728.2620741}, leveraging the network to its full potential.
+In order to address these issues, inspired by older technologies that have followed similar concepts and evolved \cite{Feamster:2014:RSI:2602204.2602219}, a new network model was designed. The Software Defined Networking (SDN) \cite{DBLP:journals/corr/KreutzRVRAU14}, is a network architecture in which the control plane of network switches is decoupled from the forwarding plane, as illustrated by Figure 1. The control plane is responsible for the management of one or more elements from the forwarding plane. The applications running on top of the control plane can program the data plane to execute determined actions according to the packet type received by an equipment or some network event. As a result of this flexibility to control the forwarding plane, network equipments may receive new functions and do not need to be replaced when the need for a new functionality arises. Moreover, the network resources can be fully exploited by some smart resource allocation, like network virtualization \cite{FLOWVISOR} \cite{Al-Shabibi:2014:OMY:2620728.2620741}, leveraging the network to its full potential.
 
 \begin{figure}[h!]
 \centering
@@ -12,13 +12,12 @@ In order to address these issues, inspired by older technologies that have follo
 \label{fig:traditional_vs_sdn}
 \end{figure}
     
-The first and the most common standard southbound interface for SDN is the OpenFlow protocol \cite{McKeown:2008:OEI:1355734.1355746} \cite{2012onf_sdn}. The OpenFlow specification describes the interaction between an OpenFlow compliant switch and an OpenFlow controller. Basically the controller installs flow entries for the   switch flow table, so the switches may apply instructions based on the network traffic.
-
+In Software Defined Networks, communication between the control and data plane relies in some sort of protocol or Application Command Interface (API), also known as southbound API. The first and the most common standard southbound interface for SDN is the OpenFlow protocol \cite{McKeown:2008:OEI:1355734.1355746} \cite{2012onf_sdn}. The OpenFlow specification describes the interaction between an OpenFlow compliant switch and an OpenFlow controller. Basically, through OpenFlow messages a controller can program the switches forwarding logic based on the type of packets transiting the network.     
 
 \section{Motivation}
 \label{sec:sec01}
 
-Among the reasons for the fast evolution of the OpenFlow protocol is the experimental work led by researchers from Standford, where the protocol was born. New features and capabilities were validated on a software switch implementation, allowing researchers to create and to try new control plane applications. Soon, advances and emerging use cases took the industry attention for SDN and OpenFlow. This culminated in the creation of the Open Network Foundation (ONF), an organization composed by big network players and vendors, as by emerging startups. This organization became responsible for new OpenFlow versions since the version 1.2 and started working on new and enhanced features, resulting in the version 1.3 less than one year after 1.2. 
+Among the reasons for the fast evolution of the OpenFlow protocol is the experimental work led by researchers from Stanford, where the protocol was born. New features and capabilities were validated on a software switch implementation, allowing researchers to create and to try new control plane applications. Soon, advances and emerging use cases took the industry attention for SDN and OpenFlow. This culminated in the creation of the Open Network Foundation (ONF), an organization composed by big network players and vendors, as by emerging startups. This organization became responsible for new OpenFlow versions since the version 1.2 and started working on new and enhanced features, resulting in the version 1.3 less than one year after 1.2. 
 
 On the other hand, OpenFlow controllers and switches did not follow the protocol advancements, notwithstanding the fast evolution, resulting in lack of alternatives to experiment new capabilities and anticipation of new applications that could benefit from new features.
 
@@ -37,10 +36,8 @@ The objective of this work is the development of a programmable OpenFlow 1.3 sof
 
 \item  \textbf{Straight forward integration with experimentation environments and emulation tools.} The switch must integrate with both real and emulated environments, ensuring seamless communication with other switches and controllers, without great modifications. Minor changes are acceptable due to specific platforms requirements: for instance, different processor architectures.
 
-\item \textbf{Maximum throughput equal or higher than 100 Mbps.} High performance is not one of the project goals. However, there are features that play with the switch packet rate. Therefore, for a significant user experience, the switch must be able to support rates of at least 100 Mbps. This value was estimated based by the minimum bandwidth required by common Internet applications. Table \ref{tab:appband} is a mix from values obtained by \cite{Chen:2004:QRN:1234242.1234243} and some popular Internet services. Considering the applications and the bandwidth usage, we found that 100 Mbps is a value to perform a reasonable number of different experiments.          
-
 \begin{savenotes}
-    \begin{table}[h]
+    \begin{table}[h!]
     \centering
     \caption{Minimum bandwidth requirements for common internet applications}
     \label{tab:appband}
@@ -57,9 +54,13 @@ The objective of this work is the development of a programmable OpenFlow 1.3 sof
     \end{table}
 \end{savenotes}
 
+\item \textbf{Maximum throughput equal or higher than 100 Mbps.} High performance is not one of the project goals. However, there are features that play with the switch packet rate. Therefore, for a significant user experience, the switch must be able to support rates of at least 100 Mbps. This value was estimated based by the minimum bandwidth required by common Internet applications. Table \ref{tab:appband} is a mix from values obtained by \cite{Chen:2004:QRN:1234242.1234243} and some popular Internet services. Considering the applications and the bandwidth usage, we found that 100 Mbps is a value to perform a reasonable number of different experiments.          
+
 \end{enumerate}
 
-\pagebreak
+
+
+
 \section{Text Structure}
 \label{sec:sec03}
 
@@ -74,3 +75,4 @@ In Chapter~\ref{cap:cap04} we highlight implementation details of OpenFlow 1.3 f
 In Chapter~\ref{cap:cap05} we evaluate the software switch in terms of common OpenFlow benchmarks and compare with related work.
 
 Finally, in Chapter~\ref{cap:conclusion} we give our conclusion remarks. This chapter highlights results, presents known use cases and discusses possible improvements in future works. 
+

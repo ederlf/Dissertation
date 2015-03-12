@@ -1,27 +1,22 @@
 \chapter{Architecture}
 \label{cap:cap03}
 
-Architectural design is strongly tied down by OpenFlow 1.3 required and optional elements. With the architecture description, we do not intend to repeat the specification. The elements described in the next sections are a conceptual point of view of each software component. 
+Architectural design is strongly tied down by OpenFlow 1.3 required and optional elements. With the architecture description, we do not intend to repeat the specification. Thus, elements described in the next sections are an specific and conceptual point of view of each software switch component. 
 
 The OpenFlow switch implementation is a fork from the OpenFlow 1.1 reference switch. We choose this implementation as a starting point for our work because of the simpler code base, when compared to other switch implementations discussed in section \ref{cap:cap02}. Although simple, the only documentation available to understand the reference switch was the OpenFlow specification. For this reason, the definition of the architectural design started from the extraction of the previous software architecture. 
 
 Firstly, through a simple reverse software engineering process \cite{Sommerville:2001:SE:375369}, we analyzed the code and listed the switch core components. Next, we identified missing components from the OpenFlow 1.3 specification. After these steps, we found that block structures suggest the application of a bottom-up design \cite{vonMayrhauser:1990:SEM:79005}. In this approach, the basic set of foundational modules and their interrelationships are the foundation for the final architecture. Following these concepts, we came up with the final design for the OpenFlow 1.3 software switch.
 
-In the Figure \ref{fig:switcharq} we show the software switch architecture. The most important block is the Datapath. It consists of OpenFlow internal elements such as Flow, Meter and Group Tables, and a Packet Parser as well. The other three blocks operate on different levels along with the Datapath. From the top level, the blocks Datapath, Marshaling/Unmarshaling library and Communication Channel are part of the OpenFlow message layer. Below, Ports and Datapath form the network packets layer, where packets arrive, are processed and usually sent back for the network.\footnote{Some instructions, actions and even an empty table may cause a packet drop in the Datapath.} Except for the special case of the \textit{Packet In} message, in which packets can be sent for the controller, these two layers do not interact. In Figure \ref{fig:switcharq}, dotted lines illustrate some possible paths a network packet can travel between the Ports and the Datapath. Solid lines denote the OpenFlow messages traveling in the OpenFlow message layer. Arrows mean the direction packets and OpenFlow messages can take across the switch components. 
+In the Figure \ref{fig:switcharq} we show the software switch architecture. The most important block is the Datapath. It consists of OpenFlow internal elements such as Flow, Meter and Group Tables, and a Packet Parser as well. The other three blocks operate on different levels along with the Datapath. From the top level, the blocks Datapath, Marshaling/Unmarshaling library and Communication Channel are part of the OpenFlow message layer. Below, Ports and Datapath form the network packets layer, where packets arrive, are processed and usually sent back for the network.\footnote{Some instructions, actions and even an empty table may cause a packet drop in the Datapath.} Except for the special case of the \textit{Packet In} message, in which packets can be sent for the controller, these two layers do not interact. In Figure \ref{fig:switcharq}, dotted lines illustrate some possible paths a network packet can travel between the Ports and the Datapath. Solid lines denote the OpenFlow messages traveling in the OpenFlow message layer. Arrows mean the direction packets and OpenFlow messages can take across the switch components. In this chapter, we present each software switch component individually, detailing each block roles and interactions with other elements.
 
-
-\begin{figure}[h!]
+\begin{figure}[H]
 \centering
 \includegraphics[height=12cm,width=\textwidth,keepaspectratio]{cap3/switcharq.pdf}
 \caption{Software switch architecture}
 \label{fig:switcharq}
 \end{figure}
 
-\section{Software Switch Elements}
-
-In this section, we present each software switch component individually, detailing roles and interactions of each block shown in Figure \ref{fig:switcharq}.     	
-
-	\subsection{Ports}
+	\section{Ports}
 
 	OpenFlow ports are the entrance and exit doors for  network packets of the OpenFlow switch pipeline. A software switch instance running on a machine may use their physical or virtual interfaces as port elements. Physical port elements can take control over Ethernet or WiFi interfaces, allowing the creation of real network topologies. Although limited by the speed of the software switch, the possibility to create a low cost testbed enriches the experience of users developing and testing OpenFlow applications.     
 
@@ -42,7 +37,7 @@ In this section, we present each software switch component individually, detaili
 	\item Ports must update port and queue packet counters.           
 	\end{itemize}
 
-	\subsection{Packet Parser}
+	\section{Packet Parser}
 
 	Before entering the software switch OpenFlow pipeline, packet protocol fields are extracted by the Packet Parser element. Parsing packets was a formally defined task until OpenFlow 1.1. The main reason to define how packets should be parsed is to guarantee parsing consistency, but it limits switch designers and demands algorithm updates for each new protocol addition. For this reason, further specifications removed how packets should be parsed and match fields are now defined only logically.
 
@@ -58,7 +53,7 @@ In this section, we present each software switch component individually, detaili
 
 	Further OpenFlow extensions, supporting new protocols, directly affect the packet parsing. Modifications are required in order to add new match fields for the Packet Parser. Therefore, a flexible and extensible Packet Parser element is desirable.  
 
-	\subsection{Flow Tables}
+	\section{Flow Tables}
 
 	Flow Tables are the heart of an OpenFlow switch architecture. They are the elements where flow entries are stored and the OpenFlow pipeline starts. Although the use of multiple flow tables is optional - the specification mandates at least one table - its implementation is recommended, as even simple applications can not scale in switches with only one Flow Table \cite{tableExplosion}.  
 	
@@ -78,13 +73,13 @@ In this section, we present each software switch component individually, detaili
 
 	\end{itemize}
 
-	\subsection{Group Table}
+	\section{Group Table}
 
 	Group Table empowers OpenFlow forwarding options. Packets reach the Group Table after matching a flow entry containing a group action, in one of the Flow Tables. 
 	
 	Group entries are stored into the Group Table. Each group entry contains an identifier, a type, counters and action buckets. Action buckets are an ordered list of action sets to be executed according to the group type. Figure \ref{fig:grouptable} represents a group table filled with groups of All, Indirect and Fast Failover types. The layout of the specific group types is important, because it defines Group Table attributions, as shown by the responsibilities listed here.
 	
-	\begin{figure}[h!]
+	\begin{figure}[H]
     \centering
     \includegraphics[height=7cm,width=\textwidth,keepaspectratio]{cap3/GroupTable.pdf}
     \caption{Group Table internals}
@@ -103,12 +98,12 @@ In this section, we present each software switch component individually, detaili
 
 	\end{itemize}
 
-	\subsection{Meter Table}
+	\section{Meter Table}
 	\label{sec:MeterTable}
 
     The Meter Table is an element to perform simple QoS operations. Per-flow meters are attached to flow entries through the \textit{Meter} instruction. A meter entry is composed by a meter id, counters and meter bands. The QoS operations to apply are defined by the meter bands. A meter band must have a type and rate value, which is the boundary to apply the action determined by the type. Figure \ref{fig:metertable} illustrates the internals of a Meter Table, with two meter band types.   
 
-    \begin{figure}[h!]
+    \begin{figure}[H]
     \centering
     \includegraphics[height=7cm,width=\textwidth,keepaspectratio]{cap3/MeterTable.pdf}
     \caption{Meter Table internals}
@@ -129,7 +124,7 @@ In this section, we present each software switch component individually, detaili
     
     \end{itemize}
 
-    \subsection{Marshaling/Unmarshaling library}
+    \section{Marshaling/Unmarshaling library}
     \label{(un)pack}
     OpenFlow messages defined by the specification follow a proper format for transmission in the network. Messages are 8-byte aligned, so there may be insertion of padding fields to follow this alignment rule. Another requirement for the message format is the byte order. The preferred format for packets sent through the network is the network byte order \cite{rfc1700}. As OpenFlow messages are sent over IP networks, their messages should be assembled following the Big-Endian format.
     
@@ -149,7 +144,7 @@ In this section, we present each software switch component individually, detaili
     
     \end{itemize}
 
-    \subsection{Communication Channel}	
+    \section{Communication Channel}	
 
     The OpenFlow software switch communicates with controllers through the Communication Channel. This element connects with the Datapath and the controller and acts as a proxy between them. This element exists because the implementation of the communication channel is not defined by the specification. Since the message format is respected, implementations are free to choose the connection protocol. For instance, when security for the channel is a requirement, a protocol like TLS should be used to encrypt the messages. 
     

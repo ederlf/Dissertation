@@ -1,9 +1,9 @@
 \chapter{Evaluation}
 \label{cap:cap05}
 
-In this chapter we evaluate our work in terms of the requisites presented on section \ref{sec:sec02}. The first section shows in numbers how many features are covered by the software switch. Subsequently, in the next section, we present the results of performance benchmarks tests. The last chapter section is a qualitative evaluation about the code's ease to change. We will highlight some known examples that demonstrate the software switch code simplicity.      
+In this chapter we evaluate our work in terms of the requisites presented on section \ref{sec:sec02}. The first section shows in numbers how many features are covered by the software switch. Subsequently, in the next section, we present the results of performance benchmarks tests. The last section of the chapter is a qualitative evaluation about the code's ease to change. We demonstrate the code portability, highlighting the port of the software switch to another processor architecture in a different operating system.      
 
-The software switch evaluated version dates from the last commit pushed to GithHub. The box below shows the dates and last code changes description.
+The software switch evaluated version dates from the last commit pushed to GitHub. The box below shows the dates and last code changes description.
 
 \begin{framed}
 
@@ -22,7 +22,7 @@ The software switch evaluated version dates from the last commit pushed to GithH
 \label{sec:FeatureComplete}
 Evaluating the proper operation of the OpenFlow switch features is not a trivial task. This is caused by the multiple and rich configurations allowed by the specification. For example, testing all flow match fields combinations would require creation of a large number of flows and packets, making manual tests very time consuming. For this reason, automatic test frameworks, discussed on section \ref{sec:testemulation}, are the best options to test the switch functionality in order to evaluate feature completeness.    
 
-OFTest and Ryu Certification are the two test frameworks used for switch validation. As mentioned in chapter \ref{CodeMaintenance}, both are important tools for the software switch development. While Ryu certification has a strong focus on validation of the Datapath, OFTest offers a nice set of test cases for control and data plane message exchange. In the next sections we present a resume of the results obtained.  
+OFTest and Ryu Certification are the two test frameworks used for the switch validation. As mentioned in chapter \ref{CodeMaintenance}, both are important tools for the software switch development. While Ryu certification has a strong focus on validation of the Datapath, OFTest offers a nice set of test cases for control and data plane message exchange. In the next sections we present a resume of the results obtained.  
 
 
 \subsection{OFTest results}
@@ -53,7 +53,7 @@ GroupDescStats                         & ok              &  & TableStats        
 \end{tabular}
 \end{table}
 
-Controller roles test results are shown in table \ref{tab:oftestrole}. This test checks if the software switch changes correctly controller roles, and if the respective permission police is respected. As in the previous message tests, all role tests were sucessful.    
+Controller roles test results are shown in table \ref{tab:oftestrole}. These tests check if the software switch changes correctly controller roles, and if the respective permission police is respected. As in the previous message tests, all role tests were successful.    
 
 \begin{table}[h]
 \centering
@@ -99,11 +99,11 @@ Table \ref{tab:ryuresults} is a resume of test results - the complete list of te
 
 Results show that the software switch has a higher number of working features than Open vSwitch and LINC. With only 25 errors, it is tied with Trema in the number of supported features. There is a small difference between ofsoftswitch13 and Trema in the total number of tests passing. This happens because Ryu Certification does not execute four tests due to old switch restrictions.
 
-The values presented in this section are from the official certification site \footnote{http://osrg.github.io/ryu-certification/switch/config/ofsoftswitch13.html}. Some failed test results are presented on the site work in our internal test setup. For instance, matching on \textit{PBB ISID} value. However, we chose to show the official results as we could not identify the causes for different results. In addition, some test may never pass. For example, \textit{IP proto} modification causes packet malformation, because the IP proto packet field will not conform with the next layer protocol, which leads to a test failure. 
+The values presented in this section are from the official certification site \footnote{http://osrg.github.io/ryu-certification/switch/config/ofsoftswitch13.html}. Some failed test results are presented on the site work in our internal test setup. For instance, matching on \textit{PBB ISID} value works as expected when tested in our development machine. However, we chose to show the official results as we could not identify the reasons for different results. In addition, some test may never pass. For example, \textit{IP proto} modification causes packet malformation, because the IP proto packet field will not conform with the next layer protocol, which leads to a test failure. 
 
 \section{Performance Benchmarks}
 
-One of the software switch requirements listed on chapter \ref{cap:intro} is to reach a maximum throughput of at least 100 Mb/s. For this reason we evaluated the switch performance in terms of network metrics. In this section we show how the switch performs for different packet sizes in comparison with other userspace software switches. Also, we investigated how performance is affected by the number of flows and by the number of tables traversed to match a packet.  
+One of the software switch requirements listed on chapter \ref{cap:intro} is to reach a maximum throughput of at least 100 Mb/s. For this reason we evaluated the switch performance in terms of network metrics. In this section we show how the switch performs for different packet sizes in comparison with the userspace switches LINC and Trema. We do not compare with OVS, since it is a software switch for production networks. Also, we investigated how performance is affected by the number of flows and by the number of tables traversed to match a packet.  
 
 The machine configuration used to perform measurement tests are listed in the box below. 
 
@@ -219,25 +219,25 @@ The machine configuration used to perform measurement tests are listed in the bo
     \end{figure}
   
    Switch forwarding performance for small packets is evaluated in Kilo packets per second (Kpps). Figure \ref{graph:comparison64} shows that ofsoftswitch13 can handle 38.08 Kpps. This result is very 
-   far from Trema and approximatelly 32\% more efficient than LINC. Bigger packets are measured in Mega bits per second. Results presented in Figure \ref{graph:comparison1500} show that ofsoftswitch13 and LINC, with rates of 260.25 Mbps 280.35 Mbps respectively, are slower than Trema with a bandwidth of 843.56 Mbps. 
+   far from Trema and approximatelly 32\% more efficient than LINC. Bigger packets are measured in Megabits per second. Results presented in Figure \ref{graph:comparison1500} show that ofsoftswitch13 and LINC, with rates of 260.25 Mbps 280.35 Mbps respectively, are slower than Trema with a bandwidth of 843.56 Mbps. 
    
-    Although Trema overcomes our work in performance, due to optimizations like multiple threads, the most important result of this experiment is the software switch maximum throughput found. This value is higher than the value established by the software switch requirements. 
+    Although Trema overcomes our work in throughput performance, due to optimizations like multiple threads, the most important result of this experiment is the software switch maximum throughput found. This value is higher than the value established by the software switch requirements. 
     
     \subsection{Throughput in function of flows and tables}
     \label{sec:bandflows}
-    This experiment measured two factors that may affect the software switch performance. One is the number of flows installed in one table. The second is the number of tables traversed until the match.
+    This experiment measured two factors that may affect the software switch performance. One is the number of flows installed in one table. The second is the number of tables traversed until the match is found.
     
     For this test we used Mininet with the software switch connecting two hosts. Bandwidth is measured through the  Iperf session established between the two hosts. Flow Table setup for the two cases are the following: 
     
     \begin{enumerate}[label=(\Alph*)]
-    \item \textbf{Number of flows}. Install* a certain amount of flows, with the same priority, that will not match packets. In the end, two flows, with the same or lesser priority than the previous, are installed to forward packets between the two hosts.
-    \item \textbf{Number of tables}. Flows to send the packet to next table are installed until the penultimate  table. Then, in the last table install* two flows to forward the traffic between the hosts.
+    \item \textbf{Number of flows}. A certain amount of flows, with the same priority, that will not match packets is installed. In the end, two flows, with the same or lesser priority than the previous, are installed to forward packets between the two hosts.
+    \item \textbf{Number of tables}. Flows to send the packet to next table are installed until the penultimate table. Then, in the last table two flows are added to forward the traffic between the hosts.
     \end{enumerate}
     
-        \begin{figure}[H]
-            \begin{minipage}{\textwidth}
+        \begin{figure}[h!]
+            \begin{minipage}[b]{\textwidth}
             \centering
-        \begin{subfigure}{.45\textwidth}
+        \begin{subfigure}[b]{.5\textwidth}
             \begin{tikzpicture}
             \begin{axis}[
                 xlabel={Number of flows},
@@ -264,8 +264,8 @@ The machine configuration used to perform measurement tests are listed in the bo
             \caption{Throughput per number of flows in one table}
             \label{graph:nflows}
         \end{subfigure}
-        \hfill
-        \begin{subfigure}{.45\textwidth}
+         \hfill
+        \begin{subfigure}[b]{.5\textwidth}
             \begin{tikzpicture}
             \begin{axis}[
                 xlabel={Number of tables},
@@ -293,28 +293,27 @@ The machine configuration used to perform measurement tests are listed in the bo
             \label{graph:ntables}
         \end{subfigure}
         \end{minipage}
-            
             \caption{Influence of the number of installed flows on the throughput.}
             \label{graph:scaling}
         \end{figure}     
      
-        The graphs in the Figure \ref{graph:scaling} shows that both cases have a strong influence over the switch performance. The most sensitive case is for one table shown in Figure \ref{graph:nflows}, as the number of flows increases the throughput decreases linearly. The increase in the number of tables, shown by the graph in the Figure \ref{graph:ntables}, also causes a linear decrease in the packet rate, though it is smaller than in the first case. These results were expected, since the software switch implements linear matching. Thus, this experiments were important to verify one improvement point for the software switch.     
+        The graphs in the Figure \ref{graph:scaling} shows that both cases have a strong influence over the switch performance. The most sensitive case is for one table shown in Figure \ref{graph:nflows}, as the number of flows increases the throughput decreases linearly. The increase in the number of tables, shown by the graph in the Figure \ref{graph:ntables}, also causes a linear decrease in the packet rate, though it is smaller than in the first case. These results were expected, since the software switch implements linear matching. Thus, this experiments were important to verify one improvement area for the software switch.     
      
     \subsection{Ping Round Trip Time}
 
-    Round Trip Time (RTT) is the time between a data request and answer. Several factors might affect the total RTT and and influence network latency. Two examples are: the number of nodes between two communicating hosts and the transmission medium. The time a packet takes to enter and leave a switch is also considered for the RTT. Thus, it is important to measure how much the software switch affects the RTT. 
+    Round Trip Time (RTT) is the time between a data request and answer. Several factors might affect the total RTT and  influence network's latency. Two examples are: the number of nodes between two communicating hosts and the transmission medium. The time a packet takes to enter and leave a switch is also considered for the RTT. Thus, it is important to measure how much the software switch affects the RTT. 
     
     In order to measure the RTT between two hosts connected by our software switch and also LINC and Trema, the following steps are executed:
     
     \begin{enumerate}
     \item Creation of two linux containers (LXC) - Host 1 and Host 2 - with a pair of virtual interfaces \textit{veth0} and \textit{veth1}. LXC is an operating system lightweight virtualization technology, in which it is possible to run multiple isolated linux instances as containers. With LXC, we run two containers to serve as the network hosts.    
-    \item Execution of a software switch instance of a software switch with the container virtual ports attached on switch interfaces.
+    \item Execution of a software switch instance with the container virtual ports attached to switch interfaces.
     \item Installation of two flows in the switch Flow Table to forward the traffic between the two hosts. 
     \item Configuration of Host 1 and Host 2 with IP addresses in the same network. In our test Host 1 is configured with the IP address 192.168.0.1 and host 2 as 192.168.0.2. 
     \item Execution of the \textit{ping} program in Host 1 to ping the address 192.168.0.2. Ping is a program to send and measure the time between an Internet Control Message Protocol (ICMP) "Echo request" and the ICMP "Echo Reply". The number of Echo requests sent is 100 and the packet sizes are 64Kb.
     \end{enumerate}
 
-    Switch results comparison is shown in Table \ref{pingtable}. These tests give a good approximation for the software switch impact over the network delay, because it is connected directly to the hosts. As expected, because of the previous results, Trema is the most efficient among the userspace software switches. The ofsoftswitch13 obtains a low minimum RTT, with 0.304 ms, compared to the average of approximatelly 1ms. LINC has a very high RTT, with more than a half second to complete. This is not a surprise, because the throughput tests, shown in section \ref{sec:MaxBand}, revealed that LINC does not handle small packets very fast.   
+    Switch results comparison is shown in Table \ref{pingtable}. These tests give a good approximation for the software switch impact over the network delay, because it is connected directly to the hosts. As expected, because of the previous results, Trema is the most efficient among the userspace software switches. The ofsoftswitch13 obtains a low minimum RTT, with 0.304 ms, compared to the average of approximatelly 1ms. LINC has a very high RTT, with more than a half second to complete. This is not a surprise, because the throughput tests, shown in section \ref{sec:MaxBand}, revealed that LINC does not handle small packets efficiently.   
     
     An acceptable RTT value depends on the application running over the network. Latency sensitive programs, like multiplayer online games, benefit from a low RTT. Considering a small network, with not many hops, the RTT in our software switch is acceptable.   
 
@@ -327,24 +326,23 @@ The machine configuration used to perform measurement tests are listed in the bo
     \begin{tabular}{|l|c|l|c|c|}
     \hline
     \textbf{Software Switch} & \multicolumn{1}{l|}{\textbf{Minimum}} & \textbf{Average}           & \multicolumn{1}{l|}{\textbf{Maximum}} & \multicolumn{1}{l|}{\textbf{Standard Deviation}} \\ \hline
-    ofsoftswitch13           & 0.304                                 & \multicolumn{1}{c|}{1.077} & 1.821                                 & 0.313                                            \\ \hline
-    LINC                     & 303.897                               & 554.763                    & 821.482                               & 253.034                                          \\ \hline
-    Trema                    & 0.120                                 & \multicolumn{1}{c|}{0.400} & 0.473                                 & 0.040                                            \\ \hline
+    ofsoftswitch13           & 0.30                                 & \multicolumn{1}{c|}{1.07} & 1.82                                 & 0.31                                            \\ \hline
+    LINC                     & 303.90                               & \multicolumn{1}{c|}{554.77}                    & 821.48                               & 253.03                                          \\ \hline
+    Trema                    & 0.12                                 & \multicolumn{1}{c|}{0.40} & 0.48                                 & 0.04                                            \\ \hline
     \end{tabular}
     }
     \end{table}
 
 \section{Portability}
 
-Software portability is the ability to compile and run a program in different hardware architectures. For a network environment, more specifically OpenFlow, portability allows richer testbeds. Proposed as a friendly experimentation tool for multiple environments, the software switch implementation enables portability with few platform dependant modifications. Based on build scripts to install the OpenFlow 1.0 software switch on an OpenWRT \cite{OpenWrt} operating system image, \cite{yiakoumis2011}, we demonstrated portability building our OpenFlow 1.3 software switch for OpenWRT and running in a home wireless router.
+Software portability is the ability to compile and to run a program in different hardware architectures. For a network environment, more specifically OpenFlow, portability allows richer testbeds. Proposed as a friendly experimentation tool for multiple environments, the software switch implementation enables portability with few platform dependant modifications. Based on build scripts to install the OpenFlow 1.0 software switch on an OpenWRT \cite{OpenWrt} operating system image, \cite{yiakoumis2011}, we demonstrated portability building our OpenFlow 1.3 software switch for OpenWRT and running in a home wireless router.
 
 The wireless router model for the software switch port is the TP-LINK TL-WR1043ND. This router already comes with a default OpenWRT image, however it is necessary to build a new image containing the software switch installed as an operational system package. 
 
 \begin{itemize}
 \item \textbf{Enhanced portability for different architectures}. Previously, the implementation considered only Intel based - i686 and x86_64, architectures. Byte order conversions were necessary because Intel processors byte-order are Little-endian, while the network follows the Big-endian order.  The MIPS processor of the wireless router model follows the same byte-order from the network. Standard Linux byte-order functions, from the library \textit{netinet/in.h}, do not check the system architecture but they do change the byte-order whatever the type of conversion called. For instance, if we call the function htons, to change the byte-order to network from host, and the value is already in the correct order, data is changed anyway. Thus, to avoid wrong values, we implemented byte-order conversions functions that check the system architecture before calling the standard procedures from \textit{netinet/in.h}.
-\item \textbf{Netbee Remotion}. After the first execution, we realized the switch was consuming too much memory of the router limited ammount of RAM. From 32Mb of memory, the software switch was consuming 30Mb. After a memory profiling, we found that Netbee was the switch's most memory consuming component. While it is not a problem for a server or a machine with higher capacity , it is not true for a small embedded system like the wireless router. Therefore, we removed the Netbee library, reducing the average memory usage to less than 1Mb. Since the code is well structured, the new parsing implementation was trivial. Only a simple redefinition of the parsing function in the packet handler interface was necessary. This situation also demonstrated the code's friendliness. 
+\item \textbf{Netbee Remotion}. After the first execution, we realized the switch was consuming too much memory of the router limited ammount of RAM. From 32Mb of memory, the software switch was consuming 30Mb. After a memory profiling, we found that Netbee was the switch's most memory consuming component. While it is not a problem for a server or a machine with higher capacity, it is not true for a small embedded system like the wireless router. Therefore, we removed the Netbee library, reducing the average memory usage to less than 1Mb. Since the code is well structured, the new parsing implementation was trivial. Only a simple redefinition of the parsing function in the packet handler interface was necessary. This situation also demonstrated the code's friendliness. 
 
 \end{itemize}
-
 
 The implementation of an OpenFlow 1.3 switch for a wireless router opens a myriad of opportunities in the area of Software Defined Wireless Networking. Experimenters might take advantage of the new features implemented by our software switch. Flow metering, for example, is a simple yet powerful mechanism to provide bandwidth control in home environments. Also, creation of firewall blocking rules is made easy by OpenFlow, since field matching is a natural  operation for an OpenFlow switch.
