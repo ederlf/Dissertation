@@ -55,7 +55,7 @@ In the Figure \ref{fig:switcharq} we show the software switch architecture. The 
 
 	\section{Flow Tables}
 
-	Flow Tables are the heart of an OpenFlow switch architecture. They are the elements where flow entries are stored and the OpenFlow pipeline starts. Although the use of multiple flow tables is optional - the specification mandates at least one table - its implementation is recommended, as even simple applications can not scale in switches with only one Flow Table \cite{tableExplosion}.  
+	Flow Tables are the heart of an OpenFlow switch architecture. They are the elements where flow entries are stored and the OpenFlow pipeline starts. Although the use of multiple Flow Tables is optional - the specification mandates at least one table - its implementation is recommended, as even simple applications can not scale in switches with only one Flow Table \cite{tableExplosion}.  
 	
 	Flow Tables roles in the software switch are listed below.
 
@@ -67,7 +67,7 @@ In the Figure \ref{fig:switcharq} we show the software switch architecture. The 
 
 	\item Flow Tables must be able to have their capabilities reconfigured by a controller. These table features can express the table supported properties. The instructions' type and the match fields allowed in the table are examples of properties. Also, some fields show relevant information for an OpenFlow application. For instance, the table identifier value is an information required to add a new flow, and the max number of flow entries should be considered to avoid scalability problems.           
 
-    \item A Packet look up must be performed upon the receiving of a packet. The operation looks for a flow table entry that matches the packet. In the case of a match, the switch executes the instruction set associated with the flow entry. This is the most common activity in Flow Tables.   
+    \item A Packet look up must be performed upon the receiving of a packet. The operation looks for a Flow Table entry that matches the packet. In the case of a match, the switch executes the instruction set associated with the flow entry. This is the most common activity in Flow Tables.   
     
     \item Keep table statistics about the number of active flow entries, number of look ups and matched packets.  
 

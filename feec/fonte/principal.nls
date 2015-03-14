@@ -3,58 +3,74 @@
  \nomgroup{A}
 
   \item [{API}]\begingroup Application Programming Interface\nomeqref {0}
-		\nompageref{1}
+		\nompageref{xxiii}
   \item [{ARP}]\begingroup Address Resolution Protocol\nomeqref {0}
-		\nompageref{1}
+		\nompageref{xxiii}
   \item [{ASIC}]\begingroup Application Specific Integrated Circuit\nomeqref {0}
-		\nompageref{1}
+		\nompageref{xxiii}
   \item [{BOS}]\begingroup Bottom of the stack\nomeqref {0}
-		\nompageref{1}
+		\nompageref{xxiii}
   \item [{CAM}]\begingroup Content Addressable Memory\nomeqref {0}
-		\nompageref{1}
+		\nompageref{xxiii}
   \item [{CRC}]\begingroup Cyclic Redundancy Check\nomeqref {0}
-		\nompageref{1}
-  \item [{EH}]\begingroup Extension Header\nomeqref {0}\nompageref{1}
+		\nompageref{xxiii}
+  \item [{DSCP}]\begingroup Differentiated Services Code Point\nomeqref {0}
+		\nompageref{xxiii}
+  \item [{EH}]\begingroup Extension Header\nomeqref {0}
+		\nompageref{xxiii}
   \item [{ICMP}]\begingroup Internet Control Message Protocol \nomeqref {0}
-		\nompageref{1}
-  \item [{IP}]\begingroup Internet Protocol\nomeqref {0}\nompageref{1}
+		\nompageref{xxiii}
+  \item [{IP}]\begingroup Internet Protocol\nomeqref {0}
+		\nompageref{xxiii}
   \item [{IPv6}]\begingroup Internet Protocol Version 6\nomeqref {0}
-		\nompageref{1}
+		\nompageref{xxiii}
+  \item [{JSON}]\begingroup JavaScript Object Notation\nomeqref {0}
+		\nompageref{xxiii}
   \item [{Kbps}]\begingroup Kilobits per second\nomeqref {0}
-		\nompageref{1}
+		\nompageref{xxiii}
   \item [{Kpps}]\begingroup Kilo packets per second\nomeqref {0}
-		\nompageref{1}
+		\nompageref{xxiii}
+  \item [{LXC}]\begingroup Linux Containers\nomeqref {0}
+		\nompageref{xxiii}
   \item [{MAC}]\begingroup Media Access Control\nomeqref {0}
-		\nompageref{1}
+		\nompageref{xxiii}
   \item [{Mbps}]\begingroup Megabits per second\nomeqref {0}
-		\nompageref{1}
+		\nompageref{xxiii}
+  \item [{MIPS}]\begingroup Microprocessor without Interlocked Pipeline Stages)\nomeqref {0}
+		\nompageref{xxiii}
   \item [{MPLS}]\begingroup Multiprotocol Label Switching\nomeqref {0}
-		\nompageref{1}
+		\nompageref{xxiii}
   \item [{NetPDL}]\begingroup Network Protocol Description Language\nomeqref {0}
-		\nompageref{1}
+		\nompageref{xxiii}
   \item [{ONF}]\begingroup Open Network Foundation\nomeqref {0}
-		\nompageref{1}
-  \item [{OVS}]\begingroup Open vSwitch\nomeqref {0}\nompageref{1}
+		\nompageref{xxiii}
+  \item [{ONOS}]\begingroup Open Network Operating System\nomeqref {0}
+		\nompageref{xxiii}
+  \item [{OVS}]\begingroup Open vSwitch\nomeqref {0}\nompageref{xxiii}
   \item [{OXM}]\begingroup OpenFlow Extended Match\nomeqref {0}
-		\nompageref{1}
+		\nompageref{xxiii}
   \item [{PBB}]\begingroup Provider Backbone Bridge Protocol\nomeqref {0}
-		\nompageref{1}
+		\nompageref{xxiii}
   \item [{QoS}]\begingroup Quality of Service\nomeqref {0}
-		\nompageref{1}
+		\nompageref{xxiii}
   \item [{RAM}]\begingroup Random Access Memory\nomeqref {0}
-		\nompageref{1}
+		\nompageref{xxiii}
+  \item [{RTT}]\begingroup Round Trip Time\nomeqref {0}
+		\nompageref{xxiii}
   \item [{SCTP}]\begingroup Streaming Control Transfer Protocol\nomeqref {0}
-		\nompageref{1}
+		\nompageref{xxiii}
   \item [{SDN}]\begingroup Software Defined Networking\nomeqref {0}
-		\nompageref{1}
+		\nompageref{xxiii}
   \item [{TCP}]\begingroup Transmission Control Protocol\nomeqref {0}
-		\nompageref{1}
+		\nompageref{xxiii}
   \item [{TDD}]\begingroup Test Driven Development\nomeqref {0}
-		\nompageref{1}
+		\nompageref{xxiii}
   \item [{TLS}]\begingroup Transport Layer Security\nomeqref {0}
-		\nompageref{1}
-  \item [{TLV}]\begingroup Type-Lenght-Value\nomeqref {0}\nompageref{1}
+		\nompageref{xxiii}
+  \item [{TLV}]\begingroup Type-Lenght-Value\nomeqref {0}
+		\nompageref{xxiii}
+  \item [{TTL}]\begingroup Time to live\nomeqref {0}\nompageref{xxiii}
   \item [{XML}]\begingroup Extensible Markup Language\nomeqref {0}
-		\nompageref{1}
+		\nompageref{xxiii}
 
 \end{thenomenclature}

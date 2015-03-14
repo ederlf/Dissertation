@@ -17,7 +17,7 @@ In this section we discuss how we implemented the OpenFlow 1.3 software switch a
 
 The software switch architecture Marshaling/Unmarshaling library, presented in section \ref{(un)pack}, is called Oflib. Although already present in the software switch base code, the library underwent several modifications in old messages and grew with the addition of OpenFlow 1.3 messages.
 
-Every OpenFlow message represented by the Oflib has a common header. This header struct contains only one member, which is the message type information. Using the same initial struct for every message struct allows the implementation of two general functions that abstract marshaling and unmarshaling. In the Listing \ref{msgpackunpack}, we show the definition of these functions. Marshaling, also known as packing, is done by \textit{ofl_msg_pack}. By passing a pointer to the struct \textit{ofl_msg_header} for the function, we can check the message type and apply the message respective marshaling function. Unmarshaling, also known as unpacking, is performed by \textit{ofl_msg_unpack}. In this function, the first bytes of the Openflow messages, the \textit{buf} parameter, reveal their types. With this information the function calls the proper function to convert the message for the Oflib format.  
+Every OpenFlow message represented by the Oflib has a common header. This header struct contains only one member, which is the message type information. Using the same initial struct for every message struct allows the implementation of two general functions that abstract marshaling and unmarshaling. In the Listing \ref{msgpackunpack}, we show the definition of these functions. Marshaling, also known as packing, is done by \textit{ofl_msg_pack}. By passing a pointer to the struct \textit{ofl_msg_header} for the function, we can check the message type and apply the message respective marshaling function. Unmarshaling, also known as unpacking, is performed by \textit{ofl_msg_unpack}. In this function, the first bytes of the OpenFlow messages, the \textit{buf} parameter, reveal their types. With this information the function calls the proper function to convert the message for the Oflib format.  
 \begin{lstlisting}[caption={Oflib: message pack and unpack base functions}, label=msgpackunpack,]
 int ofl_msg_pack(struct ofl_msg_header *msg, uint32_t xid, uint8_t **buf, size_t *buf_len, struct ofl_exp *exp);
 
@@ -126,7 +126,7 @@ DEFINE_FIELD    (OF_TCP_SRC,        OXM_DL_IP_ANY,   IPPROTO_TCP,    false)
 
     \subsubsection{Flow Matching}
     
-    In the pursuit for the best way to perform flow matching inside the flow table, developers might want to try different algorithms and data structures. For this reason, the switch implements a flexible and easy interface to change the way packets are matched. 
+    In the pursuit for the best way to perform flow matching inside the Flow Table, developers might want to try different algorithms and data structures. For this reason, the switch implements a flexible and easy interface to change the way packets are matched. 
     
     Match fields are part of the software switch \textit{flow_entry} struct. Instead of defining a fixed match as one of the \textit{flow_entry} member, a pointer to Oflib \textit{struct ofl_match_header} is left as a reference for the entry match fields. Therefore, if a developer wants to experiment his own match structure, there is only the need to make it start with an \textit{ ofl_match_header}.    
 

@@ -43,13 +43,13 @@ UDP Dst        & UDP destination port                \\ \hline
 \label{my-label}
 \end{table}
 
-Actions can perform modifications on packets, discard or send them to the group table or simply output to some specific port. The only required actions are \textit{Output}, to send the packet through a port, and \textit{Drop}. The packet modification actions are all optional, but their implementation is recommended, as they give more power and options to OpenFlow networks. The optional actions are \textit{Group}, to process the packet through a specific group; \textit{Push-Tag/Pop Tag}, for addition and deletion of VLAN, MPLS and PBB tags; \textit{Set-Field}, to modify packets header fields; \textit{Change TTL}, an action to modify MPLS and IP TLL; \textit{Set-Queue}, to determine which queue is attached to a port and will be used for scheduling in packet forwarding.
+Actions can perform modifications on packets, discard or send them to the group table or simply output to some specific port. The only required actions are \textit{Output}, to send the packet through a port, and \textit{Drop}. The packet modification actions are all optional, but their implementation is recommended, as they give more power and options to OpenFlow networks. The optional actions are \textit{Group}, to process the packet through a specific group; \textit{Push-Tag/Pop Tag}, for addition and deletion of VLAN, MPLS and PBB tags; \textit{Set-Field}, to modify packets header fields; \textit{Change TTL}, an action to modify MPLS and IP Time to live (TTL) fields; \textit{Set-Queue}, to determine which queue is attached to a port and will be used for scheduling in packet forwarding.
 
 OpenFlow groups are a way to perform more complex forwarding actions. When a packet is sent to a group it is cloned and executed by sets of action buckets. This abstraction enables flooding, multipath, link aggregation and other techniques that demand transmission of packets through more than one port. 
 
 The last essential block is the OpenFlow channel. The main connection between controller and switch is done by one of the following transport protocols: TCP or TLS, where the second is recommended because it enables data encryption of the transmitted data. Auxiliary connections are also allowed and it is possible to have UDP connections for transmission of less sensitive OpenFlow messages.
 
-An optional element of the OpenFlow switch is the Meter Table. This table comprises different types of Meter Bands, which have a speed limit and apply a determined QoS action in the case of a packet flow exceeding the determined limit. There are two types of bands covered by the OpenFlow 1.3 specification: \textit{Drop}, to discard packets; and \textit{DSCP Remark}, to decrease the drop precedence of the DSCP field of the IP header.
+An optional element of the OpenFlow switch is the Meter Table. This table comprises different types of Meter Bands, which have a speed limit and apply a determined QoS action in the case of a packet flow exceeding the determined limit. There are two types of bands covered by the OpenFlow 1.3 specification: \textit{Drop}, to discard packets; and \textit{DSCP Remark}, to decrease the drop precedence of the Differentiated Services Code Point (DSCP) field of the IP header.
 
 \subsection{One day in the life of an OpenFlow 1.3 switch in 10 steps}
 
@@ -109,7 +109,7 @@ eth dst:HOST 1 MAC             & 100                 & apply actions -> output:1
 
 \item This time The ARP reply is not flooded to all ports. As the  \textit{Controller} knew about the destination, it is sent directly to \textit{Host 1}. After receiving the ARP reply, it starts transmitting the file to \textit{Host 2}.
 
-\item Again, the first packet of the file transference to \textit{Host 2} is sent to the  \textit{Controller}. Now it knows about \textit{Host 2} MAC and origin port. It installs another flow, shown in the third row of Table \ref{tab:finaltable}, and it sends the \textit{Packet Out} message to the \textit{Switch}. The \textit{Switch} sends the packet directly to \textit{Host 2}. From now on, the packets are not sent for the \textit{Controller} anymore because the installed flows are matched. 
+\item Again, the first packet of the file transference to \textit{Host 2} is sent to the  \textit{Controller}. Now it knows about \textit{Host 2} MAC and origin port. It installs another flow, shown in the third row of Table \ref{tab:finaltable}, and it sends the \textit{Packet Out} message to the \textit{Switch}. The \textit{Switch} sends the packet directly to \textit{Host 2}. From now on, the next incoming packets are not sent for the \textit{Controller} anymore because they should match the flows installed as a MAC learning result. 
 
 \begin{table}[H]
 \centering
@@ -123,7 +123,6 @@ eth dst:HOST 1 MAC             & 100                 & apply actions -> output:1
 eth dst:HOST 2 MAC             & 100                 & apply actions -> output:2                         \\ \hline
 \end{tabular}
 \end{table}
-
 
 \end{enumerate}        
 
@@ -161,9 +160,9 @@ The next subsections will provide a short individual description of the software
     \subsection{OpenFlow reference switch}
     \label{sec:sec221}
     
-     The first OpenFlow switch is known as reference switch because it was implemented by Stanford researchers directly involved with the OpenFlow protocol creation and the first specification releases. The code is written using the C language and its simplicity is one of the reasons for the implementation to other platforms. Two important ports are: NetFPGA boards \cite{netpfgaof}, eliminating the disadvantage of the user space implementation; and OpenWrt \cite{pantou} for wireless routers. These efforts enabled low cost options to test OpenFlow on real hardware during earlier protocol stages.    
+     The first OpenFlow switch is known as reference switch because it was implemented by Stanford researchers directly involved with the OpenFlow protocol creation and the first specification releases. The code is written in the C language and its simplicity enabled the OpenFlow development to other platforms. Two of these important OpenFlow 1.0 implementations that are based in the reference switch code are: NetFPGA boards \cite{netpfgaof}, eliminating the disadvantage of the user space implementation; and OpenWrt \cite{pantou} for wireless routers. These efforts enabled low cost options to test OpenFlow on real hardware during earlier protocol stages.    
      
-     The last OpenFlow version implemented by Stanford researchers was 1.0, but after the version 1.1 release there was an update, based on the reference switch, released by Ericsson Traffic Lab, called of11softswitch \cite{of11softswitch}. To conform changes such as multiple tables, the switch forwarding plane was rewritten, but still retained all of the base software switch characteristics.     
+     The last OpenFlow version implemented by Stanford researchers was 1.0, but after the version 1.1 release there was an update, based on the reference switch, released by Ericsson Traffic Lab, called of11softswitch \cite{of11softswitch}. To conform changes such as multiple tables, the switch forwarding plane was rewritten, however the base software switch characteristics were kept.     
 
      \subsection{Open vSwitch}
     
@@ -174,7 +173,7 @@ The next subsections will provide a short individual description of the software
     \subsection{LINC}
     
     LINC \cite{linc} is an userspace software switch written in the Erlang programming language and has different support levels, considering the number of working features, for OpenFlow versions from 1.2 to 1.4. The main advantage of this switch is the support to OF-CONFIG \cite{ofconfig}, the OpenFlow switch configuration protocol. As an userspace implementation, efficiency is not one of its strong points. However, it promises flexibility, fast development and testing of new OpenFlow features. 
-    The Erlang language is not a disadvantage \textit{per se}, but it can be considered a blocking point for developers who want to add their own features. Erlang developers are growing, but their number are still very far from languages like C and Java.
+    The Erlang language is not a disadvantage \textit{per se}, but it can be considered a blocking point for developers who want to add their own features. Erlang developers are growing, but their number are still very far from languages like C and Java \cite{langpop}. 
 
     \subsection{Trema}
     
@@ -190,9 +189,9 @@ The next subsections will provide a short individual description of the software
     
     \subsection{POX}
     
-    Pox is a controller implemented in Python and can be considered a NOX sibling \cite{pox}, created to address the lack of speed when prototyping with NOX. Its main goal is to become the archetypal of a modern SDN controller, featuring some desired SDN capabilities like debugging, new programming models and network virtualization. 
+    Pox is a controller implemented in Python and can be considered a NOX sibling \cite{pox}, created to address the lack of speed on application prototyping for NOX. Its main goal is to become the archetypal of a modern SDN controller, featuring some desired SDN capabilities like debugging, new programming models and network virtualization. 
     
-    Designed with research in mind, under constant development and a typical controller used for SDN education, POX was a great candidate to be the controller for testing the software switch, but the OpenFlow support still doesn't surpass version 1.0
+    Designed with research in mind, under constant development and a typical controller used for SDN education, POX was a great candidate to be the controller for testing the software switch, but the OpenFlow support never surpassed the version 1.0
   
     \subsection{Floodlight}
 
@@ -200,14 +199,13 @@ The next subsections will provide a short individual description of the software
   
     \subsection{Ryu}
     
-    Ryu is considered an SDN network framework \cite{ryu}, an abstraction that provides code software components, with generic functionality, easing and speeding development of SDN applications. It is implemented in Python, like POX, but has a different architecture. Designed as software components, developers can create OpenFlow applications like modules. Furthermore, the controller also supports management protocols like OF-Config and Netconf.
+    Ryu is considered an SDN network framework \cite{ryu}, an abstraction that provides code software components, with generic functionality, easing and speeding development of SDN applications. It is implemented in Python, like POX, but has a different architecture. Through its modular design, structured as software components, developers can create OpenFlow applications and use them as independent modules. Furthermore, the controller also supports management protocols like OF-Config and Netconf.
     
-    Very well documented, with a large number of examples and featuring all OpenFlow versions, Ryu is currently a great choice to test the software switch, but when we started this work OpenFlow support was limited to OpenFlow 1.0. OpenFlow 1.3 support was only available in the middle of our switch implementation.
+    Ryu is very well documented and has a large number of examples. Moreover, support to all OpenFlow versions makes Ryu one of the best candidates to test our software switch.
  
-
 \section{OpenFlow test and emulation}
 \label{sec:testemulation}
-    The last pieces of a minimal OpenFlow environment are  test frameworks and emulation tools. For our development we are more interested in the first, though a modular emulation software compatible with our software switch may benefit users looking for a complete, controlled and easy to setup testbed. 
+    The last pieces of a minimal OpenFlow environment are  test frameworks and emulation tools. For our development we are more interested in the first, though a modular emulation software compatible with our software switch may benefit users looking for an easy and complete testbed in a box. 
     
     \subsection{OF-Test}
     
@@ -215,13 +213,13 @@ The next subsections will provide a short individual description of the software
     
     \subsection{Ryu Test Framework}
     
-    This test framework is part of the Ryu controller and implements tests to cover all, required and optional, OpenFlow 1.3 and 1.4, actions, instructions and match fields, with a more comprehensive test than OF-Test. The test cases are written in JSON, so there is no need for coding to create a test, which enhances the speed of test creation. 
+    This test framework is part of the Ryu controller and implements tests to cover all, required and optional, OpenFlow 1.3 and 1.4, actions, instructions and match fields, with a more comprehensive test than OF-Test. The test cases are written using the JavaScript Object Notation (JSON), so there is no need for coding to create a test, which enhances the speed of test creation. 
     
     There is an online certification which continuously tests OpenFlow software and hardware switches, including our work \cite{ryucert}. Results from this certification will be presented in chapter \ref{cap:cap05}.
 
     \subsection{OpenFlow packet dissectors}
 
-    Packet dissectors are important tools to test if message packets are correct or to check if an specific packet was sent or modified by an OpenFlow output and set-field actions, respectively. Wireshark \cite{wireof} is the most famous program to dissect packets. Although a wide range of protocols are officially supported, OpenFlow support started as an  unofficial  plugin for OpenFlow 1.0 and 1.1. For a long time this plugin was the only option for analyzing OpenFlow traffic. Recently, due to the growth in the number of users requesting for official support, OpenFlow is now developed in the dissector's main repository \cite{wireof}.    
+    Packet dissectors are important tools to test if message packets are correct or to check if an specific packet was sent or modified by an OpenFlow output and set-field actions, respectively. Wireshark \cite{wireof} is the most famous program to dissect packets. Although a wide range of protocols are officially supported, OpenFlow support started as an  unofficial  plug-in for OpenFlow 1.0 and 1.1. For a long time this plug-in was the only option for analyzing OpenFlow traffic. Recently, due to the growth in the number of users requesting for official support, OpenFlow is now developed in the dissector's main repository \cite{wireof}.    
     \subsection{Mininet}
     
    Mininet \cite{Lantz:2010:NLR:1868447.1868466} is a tool for network emulation. In a single machine it runs switches, links and hosts just like a complete virtual network. It is possible to log into the hosts and use programs like Iperf \cite{iperf} and Ping, to measure throughput and check connectivity; specify link parameters as speed and delay; and instantiate a network topology composed of software switches. The capacity to create and to destroy virtual networks allows fast and easy experimentation. 
